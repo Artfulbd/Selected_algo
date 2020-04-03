@@ -14,7 +14,7 @@ public class MyMergeSort {
 		System.out.print("\nDuring sort: ");
 		for(int a: ar)System.out.print(a + " ");
 	}
-	public static void merge_array(int[] ar,int[] temp, int leftStart, int rightEnd) {
+	public static void merge_array(int[] ar, int[] temp, int leftStart, int rightEnd) {
 		int leftEnd = (leftStart + rightEnd) / 2;
 		int rightStart = leftEnd + 1;
 		int left = leftStart, right = rightStart;

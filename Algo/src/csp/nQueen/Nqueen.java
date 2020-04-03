@@ -37,7 +37,6 @@ public class Nqueen {
 		
 		printTable();
 		//printQueenCondinates();
-		//printQueenRout();
 	}
 	
 	public void solve() {
@@ -56,8 +55,8 @@ public class Nqueen {
 		for(int i = 0 ; i< size; i++) {
 			for(int j =0 ;j<size; j++)table[j][i] = "-";
 			r = from + (int)(Math.random()*500) % (to + 1 - from) ;
-			table[r][i] = "Q"+Integer.toString(i); 			             // actually it is j index
-			qns.add(new Queen(r, i, tracePath(r, i))); 					 // adding new queen
+			table[r][i] = "Q"+Integer.toString(i); 			        // actually it is j index
+			qns.add(new Queen(r, i, tracePath(r, i))); 				// adding new queen
 
 		}
 	}
@@ -74,16 +73,18 @@ public class Nqueen {
 	private void reduceViolation() {
 		int i = 0;
 		do {
-			if(i == 800) {
+			if(i == 1000) {
 				assign();
 				i = 0;
+				//System.out.println("New combination");
 			}
+			
 			i++;
 			checkAllViolation();
 			if(totalViolation == 0)break;
+			
 			st = new Stack<>();
 			reAssign(maxViolatingIndex);
-			
 			st.pop();
 			if(maxViolatingIndex == previousViolatorIndex && !st.empty()) {
 				maxViolatingIndex = st.peek();	
@@ -101,7 +102,6 @@ public class Nqueen {
 		st.push(minViolationIndex);
 		Coordinate cur, old = qns.get(j).getCoordinate();      // preserving old coordinate
 		
-
 		for(int i = 0; i < size; i++) {
 			cur = new Coordinate(i,j);                       // current test coordinate
 			if(!old.equals(cur)) {                           // preventing old one from re-check 
@@ -116,7 +116,6 @@ public class Nqueen {
 				}	
 			}	
 		}
-
 
 		// final assigning
 		qns.set(j, new Queen(minViolationIndex,j,tracePath(minViolationIndex, j)));
@@ -138,7 +137,7 @@ public class Nqueen {
 			}
 			this.totalViolation += qns.get(j).getViolationCount();
 			//System.out.println("Q"+j+" violates "+qns.get(j).getViolationCount()+" queen."+
-				//	"("+qns.get(j).getCoordinate().x+","+qns.get(j).getCoordinate().y+") ");
+			//		"("+qns.get(j).getCoordinate().x+","+qns.get(j).getCoordinate().y+") ");
 			//printRout(qns.get(j));
 			//System.out.println();
 		}
@@ -213,19 +212,18 @@ public class Nqueen {
 
 	// UTILITY methods
 	private void printAllQueensRout() {              //print all queens path(graphically)
-		int n = 0;
 		for(Queen q: qns) {
-			printQueenRoutOf(q,n++);
+			printQueenRoutOf(q);
 			System.out.println();
 		}		
 	}
 	
-	private void printQueenRoutOf(Queen q, int index) {
-		System.out.println("For Q"+index);
+	private void printQueenRoutOf(Queen q) {          
+		System.out.println("For Q"+q.getIndex());
 		for(int i = 0 ; i< size; i++) {
 			for(int j = 0; j<size; j++) {				
 				if(q.getPath().contains(new Coordinate(i,j))){
-					if(q.getCoordinate().equals(new Coordinate(i,j)) )System.out.print("Q"+index+" ");
+					if(q.getCoordinate().equals(new Coordinate(i,j)) )System.out.print("Q"+q.getIndex()+" ");
 					else System.out.print("#  ");
 				}
 				else System.out.print("-  ");
